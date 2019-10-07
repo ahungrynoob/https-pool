@@ -46,7 +46,6 @@ describe('lib/utils', () => {
 
     const caPem = pki.certificateToPem(ca.cert);
     const rootCrt = fs.readFileSync(path.join(fixtures, 'root.crt'), 'utf8');
-    fs.writeFileSync(path.join(fixtures, 'test.crt'), caPem);
     assert.equal(caPem.replace(/[\r\n]/g, ''), rootCrt.replace(/[\r\n]/g, ''));
   });
 
