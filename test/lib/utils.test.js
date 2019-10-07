@@ -27,15 +27,13 @@ describe('lib/utils', () => {
 
     mm(global, 'Date', class extends RealDate {
       constructor() {
-        return new RealDate(2019, 5, 5, 15, 46);
+        return new RealDate(1559742360000);
       }
 
       getFullYear() {
         return 2019;
       }
     });
-
-    console.log(new Date());
 
     const ca = createCACert({
       commonName: 'whistle.1559742360747607',
