@@ -35,6 +35,8 @@ describe('lib/utils', () => {
       }
     });
 
+    console.log(new Date());
+
     const ca = createCACert({
       commonName: 'whistle.1559742360747607',
       countryName: 'CN',
