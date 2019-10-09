@@ -1,6 +1,6 @@
 {
   "name": "https-pool",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A cached pool of https server for domains",
   "main": "index.js",
   "repository": {
