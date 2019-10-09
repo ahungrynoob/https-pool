@@ -4,12 +4,20 @@ const assert = require('assert');
 const mm = require('mm');
 const net = require('net');
 const request = require('request');
+const path = require('path');
+const fs = require('fs');
 const HttpsPool = require('../index');
+
+const fixtures = path.join(__dirname, 'fixtures');
 
 describe('lib/https-pool.js', () => {
   let httpsPool;
   beforeEach(() => {
+    const key = fs.readFileSync(path.join(fixtures, 'root.key'));
+    const cert = fs.readFileSync(path.join(fixtures, 'root.crt'));
     httpsPool = new HttpsPool({
+      key,
+      cert,
       commonName: 'example',
       countryName: 'CN',
       ST: 'SH',
@@ -28,6 +36,11 @@ describe('lib/https-pool.js', () => {
       assert(httpsPool.TIMEOUT === 6000);
       assert(httpsPool.MAX_SERVERS === 220);
       assert(typeof httpsPool.CA.cert === 'string' && typeof httpsPool.CA.key === 'string');
+    });
+
+    it('should return the same private key in pem format', () => {
+      const key = fs.readFileSync(path.join(fixtures, 'root.key'), 'utf8');
+      assert.strictEqual(key.replace(/[\r\n]/g, ''), httpsPool.CA.key.replace(/[\r\n]/g, ''));
     });
   });
 
