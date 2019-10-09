@@ -38,6 +38,9 @@ const httpsPool = new HttpsPool({
   organizationName: "example.com",
   OU: "example.com"
 });
+
+// You can save the cert and key of root CA to let the client trust it.
+const { key, cert } = httpsPool.CA;
 ```
 
 You can get a https server like this ↓. That's enough for common usage. `https-pool` will take care of the cache logic, so worrying about your memory is unnecessary.
