@@ -26,9 +26,11 @@ const HttpsPool = require("https-pool");
 const fs = require("fs");
 
 const key = fs.readFileSync(path.join(fixtures, "root.key"));
+const cert = fs.readFileSync(path.join(fixtures, "root.crt"));
 
 const httpsPool = new HttpsPool({
   key,
+  cert,
   commonName: "example",
   countryName: "CN",
   ST: "SH",
@@ -70,13 +72,14 @@ It will create a https pool.
 - options
   - `option.timeout` - https server won't close until secure conntection is established within timeout (default 6000)
   - `option.max_servers` - max num for https servers the pool cached (default 220)
-  - `option.key` - the private key of the root ca which your client trusts or https-pool will use its own
-  - `option.commonName` - the common name option
-  - `option.countryName` - the country name option
-  - `option.ST` - the ST option
-  - `option.localityName` - the locality name option
-  - `option.organizationName` - the organization name option
-  - `option.OU` - the OU option
+  - `option.key` and `option.cert`- the private key and cert of the root ca which your client trusts or https-pool will create one
+  - If you don't pass `option.key` and `option.cert`, you need to pass these options:
+    - `option.commonName` - the common name option
+    - `option.countryName` - the country name option
+    - `option.ST` - the ST option
+    - `option.localityName` - the locality name option
+    - `option.organizationName` - the organization name option
+    - `option.OU` - the OU option
 
 ### HttpsPool#getServer(hostname, listener, callback, timeout)
 

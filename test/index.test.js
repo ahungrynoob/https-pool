@@ -14,8 +14,10 @@ describe('lib/https-pool.js', () => {
   let httpsPool;
   beforeEach(() => {
     const key = fs.readFileSync(path.join(fixtures, 'root.key'));
+    const cert = fs.readFileSync(path.join(fixtures, 'root.crt'));
     httpsPool = new HttpsPool({
       key,
+      cert,
       commonName: 'example',
       countryName: 'CN',
       ST: 'SH',
