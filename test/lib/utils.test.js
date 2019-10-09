@@ -5,7 +5,7 @@ const path = require('path');
 const forge = require('node-forge');
 const fs = require('fs');
 const assert = require('assert');
-const { createCACert, createCertificate } = require('../../lib/utils');
+const { createCACert, createCertificate, defer } = require('../../lib/utils');
 
 const pki = forge.pki;
 
@@ -46,7 +46,7 @@ describe('lib/utils', () => {
 
     const caPem = pki.certificateToPem(ca.cert);
     const rootCrt = fs.readFileSync(path.join(fixtures, 'root.crt'), 'utf8');
-    assert.equal(caPem.replace(/[\r\n]/g, ''), rootCrt.replace(/[\r\n]/g, ''));
+    assert.strictEqual(caPem.replace(/[\r\n]/g, ''), rootCrt.replace(/[\r\n]/g, ''));
   });
 
   it('should generate correct certificate based on hostname', () => {
@@ -56,15 +56,37 @@ describe('lib/utils', () => {
     const cert = pki.certificateFromPem(certPem);
 
     const certificateDomain = createCertificate('www.taobao.com', privateKey, cert);
-    assert.equal(
-      pki.certificateFromPem(certificateDomain.cert).subject.attributes[0].value,
+    assert.strictEqual(
+      certificateDomain.cert.subject.attributes[0].value,
       'www.taobao.com'
     );
 
     const certificateIP = createCertificate('192.168.1.1', privateKey, cert);
-    assert.equal(
-      pki.certificateFromPem(certificateIP.cert).subject.attributes[0].value,
+    assert.strictEqual(
+      certificateIP.cert.subject.attributes[0].value,
       '192.168.1.1'
     );
+  });
+
+  it('should trigger then callback when call defer.resolve', done => {
+    const { promise, resolve } = defer();
+    promise.then(value => {
+      assert.strictEqual(value, 'foo');
+      done();
+    });
+    setTimeout(() => {
+      resolve('foo');
+    }, 2000);
+  });
+
+  it('should trigger catch callback when call defer.reject', done => {
+    const { promise, reject } = defer();
+    promise.catch(value => {
+      assert.strictEqual(value, 'bar');
+      done();
+    });
+    setTimeout(() => {
+      reject('bar');
+    }, 2000);
   });
 });
