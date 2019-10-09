@@ -83,7 +83,7 @@ It will return a https server if available or will create one and cached.
 Tell whether the server basing on the hostname exists
 
 - `hostname` - the hostname server base on
-- return {boolean}
+- `return {boolean}`
 
 ### HttpsPool#removeServer(hostname)
 
