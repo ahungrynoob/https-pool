@@ -23,8 +23,12 @@ Just pass your CA certificate options into HttpsPool, and get a empty https serv
 
 ```javascript
 const HttpsPool = require("https-pool");
+const fs = require("fs");
+
+const key = fs.readFileSync(path.join(fixtures, "root.key"));
 
 const httpsPool = new HttpsPool({
+  key,
   commonName: "example",
   countryName: "CN",
   ST: "SH",
@@ -55,6 +59,10 @@ httpsPool.getServer(
 
 ## API
 
+### Properties
+
+- `httpsPool.CA` - return as {key, cert} in the format as pem. (You could trust the key and cert on the your client such as browser)
+
 ### HttpsPool(options)
 
 It will create a https pool.
@@ -62,6 +70,7 @@ It will create a https pool.
 - options
   - `option.timeout` - https server won't close until secure conntection is established within timeout (default 6000)
   - `option.max_servers` - max num for https servers the pool cached (default 220)
+  - `option.key` - the private key of the root ca which your client trusts or https-pool will use its own
   - `option.commonName` - the common name option
   - `option.countryName` - the country name option
   - `option.ST` - the ST option
