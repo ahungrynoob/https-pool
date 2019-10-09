@@ -19,12 +19,12 @@ $ npm i https-pool --save
 
 > https-pool is useful for getting https server without worry about forging certificates.
 
-Just pass your CA certificate options into HttpsPool, and you get a empty https server pool.
+Just pass your CA certificate options into HttpsPool, and get a empty https server pool.
 
 ```javascript
 const HttpsPool = require("https-pool");
 
-httpsPool = new HttpsPool({
+const httpsPool = new HttpsPool({
   commonName: "example",
   countryName: "CN",
   ST: "SH",
@@ -34,7 +34,7 @@ httpsPool = new HttpsPool({
 });
 ```
 
-You can get a https server like this ↓. That's enough for common usage. `https-pool` will help you manage the cached https server, so don't worry about your memory.
+You can get a https server like this ↓. That's enough for common usage. `https-pool` will take care of the cache logic, so worrying about your memory is unnecessary.
 
 ```javascript
 httpsPool.getServer(
@@ -60,36 +60,36 @@ httpsPool.getServer(
 It will create a https pool.
 
 - options
-  - option.timeout - https server won't close until secure conntection is established within timeout (default 6000)
-  - option.max_servers - max num for https servers the pool cached (default 220)
-  - option.commonName - the common name option
-  - option.countryName - the country name option
-  - option.ST - the ST option
-  - option.localityName - the locality name option
-  - option.organizationName - the organization name option
-  - option.OU - the OU option
+  - `option.timeout` - https server won't close until secure conntection is established within timeout (default 6000)
+  - `option.max_servers` - max num for https servers the pool cached (default 220)
+  - `option.commonName` - the common name option
+  - `option.countryName` - the country name option
+  - `option.ST` - the ST option
+  - `option.localityName` - the locality name option
+  - `option.organizationName` - the organization name option
+  - `option.OU` - the OU option
 
 ### HttpsPool#getServer(hostname, listener, callback, timeout)
 
 It will return a https server if available or will create one and cached.
 
-- hostname - hostname which https server base on
-- listener {Function | Object} - request event listener or Object type with custom event listener
-- callback - callback func with port arg
-- timeout - timeout for https server in ms
+- `hostname` - hostname which https server base on
+- `listener` {`Function` | `Object`} - request event listener or Object type with custom event listener
+- `callback` - callback func with port arg
+- `timeout` - timeout for https server in ms
 
 ### HttpsPool#existsServer(hostname)
 
 Tell whether the server basing on the hostname exists
 
-- hostname - the hostname server base on
+- `hostname` - the hostname server base on
 - return {boolean}
 
 ### HttpsPool#removeServer(hostname)
 
 Remove the server in the cache
 
-- hostname - the hostname server base on
+- `hostname` - the hostname server base on
 
 ### HttpsPool#free()
 
