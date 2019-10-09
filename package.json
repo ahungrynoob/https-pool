@@ -39,10 +39,15 @@
     "egg-ci": "^1.13.0",
     "eslint": "^5.10.0",
     "eslint-config-egg": "^7.5.1",
-    "mm": "^2.5.0"
+    "mm": "^2.5.0",
+    "request": "^2.88.0"
   },
   "dependencies": {
+    "detect-port": "^1.3.0",
     "node-forge": "^0.9.1"
   },
-  "files": []
+  "files": [
+    "index.js",
+    "lib"
+  ]
 }
