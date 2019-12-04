@@ -25,12 +25,7 @@ Just pass your CA certificate options into HttpsPool, and get a empty https serv
 const HttpsPool = require("https-pool");
 const fs = require("fs");
 
-const key = fs.readFileSync(path.join(fixtures, "root.key"));
-const cert = fs.readFileSync(path.join(fixtures, "root.crt"));
-
 const httpsPool = new HttpsPool({
-  key,
-  cert,
   commonName: "example",
   countryName: "CN",
   ST: "SH",
@@ -41,6 +36,21 @@ const httpsPool = new HttpsPool({
 
 // You can save the cert and key of root CA to let the client trust it.
 const { key, cert } = httpsPool.CA;
+```
+
+Or create a empty https server pool with specific key and cert:
+
+```javascript
+const HttpsPool = require("https-pool");
+const fs = require("fs");
+
+const key = fs.readFileSync(path.join(fixtures, "root.key"));
+const cert = fs.readFileSync(path.join(fixtures, "root.crt"));
+
+const httpsPool = new HttpsPool({
+  key,
+  cert
+});
 ```
 
 You can get a https server like this ↓. That's enough for common usage. `https-pool` will take care of the cache logic, so worrying about your memory is unnecessary.
